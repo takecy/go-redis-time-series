@@ -11,6 +11,7 @@ var (
 	ErrBadRange = errors.New("timeseries: range is invalid")
 )
 
+// Redis is interface
 type Redis interface {
 	Incr(key string) (int, error)
 	ZAdd(key string, score float64, member string) error
@@ -18,6 +19,7 @@ type Redis interface {
 	Expire(key string, seconds int) error
 }
 
+// TimeSeries is struct
 // TODO: add clock parameter
 type TimeSeries struct {
 	redis Redis
@@ -30,6 +32,7 @@ type TimeSeries struct {
 	ttl      time.Duration
 }
 
+// NewTimeSeries returns client
 func NewTimeSeries(name string, timestep time.Duration, ttl time.Duration, redis Redis) *TimeSeries {
 	seriesKey := fmt.Sprintf("%s:ts", name)
 	counterKey := fmt.Sprintf("%s:counter", name)
